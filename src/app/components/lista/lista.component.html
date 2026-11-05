@@ -1,0 +1,23 @@
+
+<h2>Resultado do Consumo</h2>
+
+@if (resultado) {
+
+  <p>Apartamento: {{ resultado.apartamento }}</p>
+
+  <p>Medidor: {{ resultado.tipoMedidor }}</p>
+
+  <p>Leitura anterior: {{ resultado.leituraAnterior }} m³</p>
+
+  <p>Leitura atual: {{ resultado.leituraAtual }} m³</p>
+
+  <p>Consumo: {{ resultado.consumo }} m³</p>
+
+  <p>Valor total: R$ {{ resultado.valorTotal }}</p>
+
+} @else {
+
+  <p>Nenhuma leitura registrada ainda.</p>
+
+}
+

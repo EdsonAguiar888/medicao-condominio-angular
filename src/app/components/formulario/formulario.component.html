@@ -1,0 +1,122 @@
+
+<!-- Título do componente filho -->
+<h2>Formulário de Leitura Componente filho</h2>
+
+<p>Componente filho funcionando!</p>
+
+<h3>Selecione um apartamento:</h3>
+
+<!--
+  (change): escuta quando o usuário muda a opção.
+
+  selecionarApartamento($event): chama o método
+  existente no formulario.component.ts.
+
+  $event: contém as informações do evento HTML.
+-->
+<select (change)="selecionarApartamento($event)">    
+
+  
+  <option value="0">Selecione...</option>  <!-- Inicia com valor 0, quando nenhum apartamento foi escolhido -->
+
+  @for (apartamento of apartamentos; track apartamento.id) {
+
+    <option [value]="apartamento.id">
+      apartamento {{ apartamento.numero }}
+    </option>
+
+  }
+
+</select>
+
+<!-- Exibe o ID armazenado no TypeScript após a seleção -->
+<p>
+  ID selecionado: {{ apartamentoSelecionadoId }}
+</p>
+
+
+<h3>Selecione o tipo de medidor</h3>
+
+<!--
+  Quando a seleção muda, o Angular executa
+  selecionarTipoMedidor() no componente Formulario.
+-->
+<select (change)="selecionarTipoMedidor($event)">
+
+  <!-- Valores que serão armazenados em tipoMedidor -->
+  <option value="AGUA">Água</option>
+  <option value="GAS">Gás</option>
+
+</select>
+
+<!-- Mostra o valor de tipoMedidor armazenado no TypeScript -->
+<p>
+  Tipo selecionado {{ tipoMedidor }}
+</p>
+
+
+<!-- ===================================================== -->
+<!-- 3. EXIBIR A LEITURA ANTERIOR -->
+<!-- ===================================================== -->
+
+@if (obterLeituraAnterior() !== null) {
+
+  <!-- Exibe a leitura encontrada no componente -->
+  <p>
+    Leitura anterior: {{ obterLeituraAnterior() }} m³
+  </p>
+
+} @else {
+
+  <!-- Aparece quando nenhum apartamento foi encontrado -->
+  <p>Selecione um apartamento para visualizar a leitura.</p>
+
+}
+
+
+<!-- ===================================================== -->
+<!-- 4. DIGITAR A LEITURA ATUAL -->
+<!-- ===================================================== -->
+
+<p>Digite a leitura atual:</p>
+
+
+<input
+  type="number"
+  min="0"
+  step="any"
+  [value]="leituraAtual ?? ''"
+  (input)="alterarLeitura($event)"
+>
+
+
+
+@if (leituraAtual !== null && !leituraValida()) {
+
+  <p style="color: red;">
+    A leitura informada é inválida ou menor que a anterior.
+  </p>
+
+}
+
+
+<!-- ===================================================== -->
+<!-- 6. MOSTRAR O RESULTADO DA VALIDAÇÃO -->
+<!-- ===================================================== -->
+
+<!--
+  Exibe true ou false na tela.
+  Foi utilizado para testar o funcionamento da validação.
+-->
+<p>
+  Resultado da validação: {{ leituraValida() }}
+</p>
+
+
+<button
+  type="button"
+  [disabled]="!leituraValida()"
+  (click)="salvarLeitura()"
+>
+  Salvar leitura
+</button>
